@@ -125,6 +125,12 @@ class StrawberryFieldWebFormWidget extends WidgetBase implements ContainerFactor
    */
   public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, FormStateInterface $form_state)
   {
+
+    // Override the title from the incoming $element.
+    if ($this->getSetting('placeholder') && !empty(trim($this->getSetting('placeholder')))) {
+      $element['#title'] = trim($this->getSetting('placeholder'));
+    }
+
     //Lets gather some basics
     // Where is this field being used, a node?
     $entity_type = $items->getEntity()->getEntityTypeId();
@@ -331,20 +337,17 @@ class StrawberryFieldWebFormWidget extends WidgetBase implements ContainerFactor
     ];
 
     return $element;
-
   }
 
   public function validateWebform($element, FormStateInterface $form_state) {
-    // Validate
-    // We have two states really:
-    // If old/loaded value is not empty then
+
     $tempstoreId = $form_state->get('strawberryfield_webform_widget_id');
     /* @var $tempstore \Drupal\Core\TempStore\PrivateTempStore */
     $tempstore = \Drupal::service('tempstore.private')->get('archipel');
     if ($tempstore->getMetadata($tempstoreId) == NULL) {
       // Means its empty. This can be Ok if something else than "save"
       // Is triggering the Ajax Submit action like the "Display Switch"
-      // @TODO investigate some #limit_validation_error options to avoid that
+      // Or we are not enforcing (required) really any values
       return;
     }
 
@@ -357,9 +360,11 @@ class StrawberryFieldWebFormWidget extends WidgetBase implements ContainerFactor
       return;
     }
     else {
-      $form_state->setError($element, $this->t("Something went wrong, so sorry. Your data does not taste like strawberry and we failed validating it."));
+      $form_state->setError($element, $this->t("Something went wrong, so sorry. Your data does not taste like strawberry (JSON malformed) and we failed validating it: @json_error.",
+        [
+          '@json_error' => $json_error
+        ]));
     }
-
   }
 
 
