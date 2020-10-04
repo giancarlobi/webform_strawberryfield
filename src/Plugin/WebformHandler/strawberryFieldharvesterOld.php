@@ -23,7 +23,7 @@ use Drupal\file\FileUsage\FileUsageInterface;
 use Drupal\file\FileInterface;
 use Drupal\strawberryfield\Tools\Ocfl\OcflHelper;
 
-trigger_error('The Webformhandler " strawberryField_webform_handler is deprecated in Webform_strawberryfield 1.0.0-RC1 and will be removed before 1.0.0. Instead, use \Drupal\webform_strawberryfield\Plugin\WebformHandler\strawberryFieldharvester.', E_USER_DEPRECATED);
+trigger_error('The Webformhandler " strawberryField_webform_handler" is deprecated in Webform_strawberryfield 1.0.0-RC1 and will be removed before 1.0.0. Instead, use \Drupal\webform_strawberryfield\Plugin\WebformHandler\strawberryFieldharvester.', E_USER_DEPRECATED);
 
 
 /**
@@ -44,5 +44,8 @@ trigger_error('The Webformhandler " strawberryField_webform_handler is deprecate
  *
  */
 class strawberryFieldharvesterOld extends strawberryFieldharvester {
-
+  public function getSummary() {
+    // Broken/missing/deprecated webform handlers do not need a summary.
+     return [];
+  }
 }
