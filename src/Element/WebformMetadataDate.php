@@ -148,10 +148,12 @@ class WebformMetadataDate extends FormElement {
         }
       }
     }
-
+    $title_opt = explode(':', $element['#title']);
+    //$title_opt = isset($title_opt[0]) ? $title_opt[0] : $title_opt;
     // The date formatting/options
     $element['date_type'] = [
       '#type' => 'radios',
+      '#title' => '',
       '#default_value' => $type,
       '#options' => [
         'date_point' => t('Date'),
@@ -174,7 +176,7 @@ class WebformMetadataDate extends FormElement {
 
 
     $element['date_to']['#title'] = t('To Date');
-    $element['date_from']['#title'] = t('From Date');
+    $element['date_from']['#title'] = t('Date');
 
     // pass #date attributes to sub elements before calling ::buildElement
 
