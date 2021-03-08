@@ -61,10 +61,12 @@ class WebformMultiAgent extends WebformCompositeBase {
 
     $elements['agent_type'] = [
       '#type' => 'select',
+      '#title' => t('Agent Type'),
+      '#title_display' => 'invisible',
       '#options' => [
         'corporate' => 'Corporate',
         'personal' => 'Personal',
-        'family' => 'Family Names'
+        'family' => 'Family'
       ],
       '#default_value' => 'Personal'
     ];
